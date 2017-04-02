@@ -2,12 +2,24 @@
 
 namespace Nerrad\WPCLI\EE\services\components;
 
-use Nerrad\WPCLI\EE\abstracts\ComponentAbstract;
 use Nerrad\WPCLI\EE\entities\components\ComponentString;
+use Nerrad\WPCLI\EE\interfaces\ComponentHasScaffoldInterface;
+use Nerrad\WPCLI\EE\interfaces\ComponentInterface;
+use Nerrad\WPCLI\EE\interfaces\ScaffoldCommandInterface;
+use Nerrad\WPCLI\EE\traits\ComponentScaffoldTrait;
+use Nerrad\WPCLI\EE\traits\ArgumentParserTrait;
+use Nerrad\WPCLI\EE\traits\ScaffoldFiles;
+use WP_CLI\utils as cliUtils;
+use WP_CLI;
 
-class AdminPages extends ComponentAbstract
+class AdminPages implements
+    ComponentInterface,
+    ComponentHasScaffoldInterface,
+    ScaffoldCommandInterface
 {
-
+    use ComponentScaffoldTrait;
+    use ArgumentParserTrait;
+    use ScaffoldFiles;
 
     /**
      * Return an array of parts output to the registration array for this component when the addon is registered.
@@ -16,7 +28,7 @@ class AdminPages extends ComponentAbstract
     public function registrationParts()
     {
         return array(
-            "'admin_path' => '{$this->constants['path']}admin'",
+            "'admin_path' => {$this->addon_string->constants()->path()} . 'admin'",
             "'admin_callback' => ''"
         );
     }
@@ -32,6 +44,7 @@ class AdminPages extends ComponentAbstract
        $paths = array();
        array_walk($this->component_strings, function (ComponentString $component_string) use ($paths) {
             $paths[] = "'{$this->getAdminClassName($component_string)}' => '{$this->getAdminPath($component_string)}'";
+            $paths[] = "'{$this->getAdminClassName($component_string, true)}' => '{$this->getAdminPath($component_string,true)}'";
        });
        return $paths;
     }
@@ -70,11 +83,75 @@ class AdminPages extends ComponentAbstract
      */
     private function getAdminPath(ComponentString $component_string, $init = false)
     {
-        return $this->constants['path']
+        return $this->addon_string->constants()->path()
                . 'admin/'
                . strtolower($component_string->name())
                . '/'
                . $this->getAdminClassName($component_string, $init)
                . '.core.php';
+    }
+
+    /**
+     * This is what would get called when the command executes.
+     */
+    public function scaffoldCommand($args, array $assoc_args = array())
+    {
+        if (cliUtils\get_flag_value($assoc_args, 'ignore_main_file_warning', false)) {
+            WP_CLI::warning(
+                'When called directly, this command will create related scaffold files but will not automatically '
+                . 'register this component (if needed) with the EE_Addon::register_addon options in the main addon '
+                . 'class.  You will need to manually do that.'
+            );
+        }
+        $addon_details = $this->getAddonDetails($args[0]);
+        $this->initializeScaffold(
+            $assoc_args,
+            $addon_details
+        );
+        foreach($this->file_generators as $file_generator)
+        {
+            $file_generator->writeFiles();
+        }
+    }
+
+    /**
+     * A short description for the command.
+     *
+     * @return string
+     */
+    function commandShortDescription()
+    {
+        return 'Generate starter files and code for admin pages that are part of an Event Espresso Addon';
+    }
+
+    /**
+     * Return the synopsis array which is an array of various descriptive properties for the command.
+     *
+     * @see  wp cli cookbook (link) for example format of the synopsis arguments.
+     * @link https://make.wordpress.org/cli/handbook/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+     * @return array
+     */
+    function commandSynopsis()
+    {
+        return array(
+            array(
+                'type' => 'positional',
+                'name' => 'addon_slug',
+                'description' => 'The slug used to reference this add-on. Used for generating classnames and other references for the addon.',
+                'optional' => false,
+                'multiple' => false
+            ),
+            array(
+                'type' => 'assoc',
+                'name' => 'admin_pages',
+                'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
+                'optional' => false
+            ),
+            array(
+                'type' => 'flag',
+                'name' => 'force',
+                'description' => 'Use this to indicate overwriting any files that already exist.',
+            )
+        );
     }
 }
