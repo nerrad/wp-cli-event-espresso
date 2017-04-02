@@ -3,6 +3,7 @@
 namespace Nerrad\WPCLI\EE\abstracts;
 
 use Nerrad\WPCLI\EE\entities\AddonString;
+use Nerrad\WPCLI\EE\interfaces\TemplateArgumentsInterface;
 use WP_CLI\utils as cliUtils;
 
 /**
@@ -14,7 +15,7 @@ use WP_CLI\utils as cliUtils;
  * @author     Darren Ethier
  * @since      1.0.0
  */
-abstract class TemplateArgumentsAbstract
+abstract class TemplateArgumentsAbstract implements TemplateArgumentsInterface
 {
     /**
      * @var AddonString

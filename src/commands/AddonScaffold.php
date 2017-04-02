@@ -3,7 +3,7 @@
 namespace Nerrad\WPCLI\EE\commands;
 
 use Nerrad\WPCLI\EE\entities\components\ComponentType;
-use Nerrad\WPCLI\EE\entities\template_arguments\AddonBaseTemplateArguments;
+use Nerrad\WPCLI\EE\entities\AddonBaseTemplateArguments;
 use Nerrad\WPCLI\EE\services\file_generators\BaseFileGenerator;
 use WP_CLI;
 use Nerrad\WPCLI\EE\abstracts\CommandWithComponents;

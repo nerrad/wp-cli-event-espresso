@@ -1,10 +1,10 @@
 <?php
 
-namespace Nerrad\WPCLI\EE\entities\template_arguments;
+namespace Nerrad\WPCLI\EE\entities;
 
 use Nerrad\WPCLI\EE\abstracts\TemplateArgumentsAbstract;
-use Nerrad\WPCLI\EE\entities\AddonString;
 use WP_CLI\Utils as cliUtils;
+use Nerrad\WPCLI\EE\services\utils\Locations;
 
 /**
  * All the base arguments for the addon
@@ -244,6 +244,28 @@ class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
                    '',
                    ucwords($this->addon_string->package())
                );
+    }
+
+
+    /**
+     * Returns a mapped array of generated file names to file source mustache template.
+     * @param string $addon_directory  The base addon directory where files will be installed.
+     * @return array
+     */
+    public function templates($addon_directory)
+    {
+        $template_path = Locations::templatesPath() . 'base';
+        return array(
+            $addon_directory . 'circle.yml' => $template_path . 'circle.yml.mustache',
+            $addon_directory . '.gitignore' => $template_path . 'gitignore.mustache',
+            $addon_directory . 'info.json'  => $template_path . 'info.json.mustache',
+            $addon_directory . 'LICENSE'    => $template_path . 'LICENSE.mustache',
+            $addon_directory . $this->getAddonSlug() . '.php'
+                                            => $template_path . 'main-file.mustache',
+            $addon_directory . 'EE_' . $this->getAddonPackage() . '.class.php'
+                                            => $template_path . 'main-class.mustache',
+            $addon_directory . 'README.md'  => $template_path . 'README.md.mustache',
+        );
     }
 
 
