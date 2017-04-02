@@ -27,12 +27,6 @@ class AddonScaffold extends CommandWithComponents
     use ComponentScaffoldTrait;
 
     /**
-     * @var array
-     */
-    private $data;
-
-
-    /**
      * @var AddonScaffoldFlag;
      */
     private $addon_scaffold_flag;

@@ -56,7 +56,7 @@ class Loader
                 /**
                  * @todo, when more command types are created, this will need to be modified to account for them.
                  */
-                if ($this->getCommandParent($class_to_instantiate) === 'CommandWithComponents') {
+                if ($this->getCommandParent($class_to_instantiate) === 'Nerrad\WPCLI\EE\abstracts\CommandWithComponents') {
                     /** @var \Nerrad\WPCLI\EE\interfaces\BaseCommandInterface $command */
                     $command = new $class_to_instantiate($component_manager);
                     $command->command();
@@ -75,7 +75,7 @@ class Loader
      */
     private function setCommandClasses()
     {
-        foreach (glob(dirname(__FILE__) . '/*') as $file) {
+        foreach (glob(dirname(__FILE__) . '/commands/*') as $file) {
             $class_name = $this->getClassnameFromFilePath($file);
             //this class isn't a command so don't load.
             if (empty($class_name)) {
@@ -95,6 +95,9 @@ class Loader
     private function getCommandParent($command_class)
     {
         $reflection = new ReflectionClass($command_class);
-        return $reflection->getParentClass()->getName();
+        if ($reflection->getParentClass()) {
+            return $reflection->getParentClass()->getName();
+        }
+        return '';
     }
 }

@@ -1,7 +1,13 @@
 <?php
 use Nerrad\WPCLI\EE\Loader;
 use Nerrad\WPCLI\EE\services\utils\Locations;
-if ( ! class_exists( 'WP_CLI' ) ) {
+
+$autoload = dirname( __FILE__ ) . '/vendor/autoload.php';
+if ( file_exists( $autoload ) ) {
+    require_once $autoload;
+}
+
+if (! class_exists( 'WP_CLI' ) ) {
 	return;
 }
 //initialize basePath.

@@ -218,7 +218,7 @@ class ComponentManager
     {
         foreach (glob(dirname(__FILE__) . '/components/*') as $file) {
             try {
-                $fqcn      = 'Nerrad\\WPCLI\\EE\\services\\components\\ ' . $this->getClassnameFromFilePath($file);
+                $fqcn      = 'Nerrad\\WPCLI\\EE\\services\\components\\' . $this->getClassnameFromFilePath($file);
                 $component = new $fqcn;
                 //if component is an instance of ComponentInterface then we don't set it on the component array.
                 if ($component instanceof ComponentInterface) {

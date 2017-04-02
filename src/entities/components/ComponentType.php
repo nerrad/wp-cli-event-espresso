@@ -40,7 +40,7 @@ class ComponentType
      */
     public function __construct($type)
     {
-        if (! defined(__CLASS__ . '::' . $type)) {
+        if (! defined('self::' . strtoupper($type))) {
             throw new InvalidArgumentException(
                 sprintf(
                     'The %s class must be instantiated with a valid type. "%s" is not valid.',

@@ -27,7 +27,7 @@ trait ComponentScaffoldTrait
      *
      * @var array
      */
-    protected $data = array();
+    private $data = array();
 
 
     /**
@@ -60,7 +60,7 @@ trait ComponentScaffoldTrait
      */
     protected $initialized = false;
 
-    public function initializeScaffold($data, AddonString $addon_string)
+    public function initializeScaffold(array $data, AddonString $addon_string)
     {
         if (! $this->initialized) {
             $this->data         = $data;
