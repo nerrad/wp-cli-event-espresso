@@ -163,19 +163,6 @@ class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
 
 
     /**
-     * AddonBaseTemplateArguments constructor.
-     *
-     * @param \Nerrad\WPCLI\EE\entities\AddonString $addon_string
-     * @param                                       $data
-     * @param bool                                  $force
-     */
-    public function __construct(AddonString $addon_string, $data, $force = false)
-    {
-        parent::__construct($addon_string, $data, $force);
-    }
-
-
-    /**
      * Takes care of parsing the incoming data and assigning to the correct props with appropriate defaults.
      *
      * @param                                       $data
