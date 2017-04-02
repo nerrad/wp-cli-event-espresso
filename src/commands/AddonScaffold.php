@@ -108,6 +108,8 @@ class AddonScaffold extends CommandWithComponents
 
         $file_generator->writeFiles();
 
+        $assoc_args['ignore_main_file_warning'] = true;
+
         //let's run any subcommands for any included component arguments.
         $this->component_manager->runSubCommandsForArguments(
             $assoc_args,

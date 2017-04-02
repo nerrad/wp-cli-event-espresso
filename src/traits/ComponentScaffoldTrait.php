@@ -2,9 +2,11 @@
 
 namespace Nerrad\WPCLI\EE\traits;
 
+use Nerrad\WPCLI\EE\entities\AddonBaseTemplateArguments;
 use Nerrad\WPCLI\EE\entities\components\ComponentString;
 use Nerrad\WPCLI\EE\entities\AddonString;
 use \Nerrad\WPCLI\EE\interfaces\FileGeneratorInterface;
+use Nerrad\WPCLI\EE\services\file_generators\BaseFileGenerator;
 use WP_CLI\Utils as cliUtils;
 use WP_CLI;
 use Exception;
@@ -41,9 +43,9 @@ trait ComponentScaffoldTrait
 
 
     /**
-     * @var FileGeneratorInterface
+     * @var FileGeneratorInterface[]
      */
-    protected $file_generator;
+    protected $file_generators;
 
 
     /**
@@ -51,12 +53,24 @@ trait ComponentScaffoldTrait
      */
     protected $component_strings = array();
 
+
+    /**
+     * Used to keep track of whether this component has already been initialized.
+     * @var bool
+     */
+    protected $initialized = false;
+
     public function initializeScaffold($data, AddonString $addon_string)
     {
-        $this->data      = $data;
-        $this->addon_string = $addon_string;
-        $this->setComponentStrings();
-        $this->file_generator = $this->getFileGenerator();
+        if (! $this->initialized) {
+            $this->data         = $data;
+            $this->addon_string = $addon_string;
+            $this->setComponentStrings();
+            foreach ($this->component_strings as $component_string) {
+                $this->file_generators[] = $this->getFileGenerator($component_string);
+            }
+            $this->initialized = true;
+        }
     }
 
 
@@ -90,26 +104,82 @@ trait ComponentScaffoldTrait
     }
 
 
-    public function getFileGenerator()
+    /**
+     * Returns the file generator for the component
+     * @param \Nerrad\WPCLI\EE\entities\components\ComponentString $component_string
+     * @return \Nerrad\WPCLI\EE\services\file_generators\BaseFileGenerator
+     */
+    public function getFileGenerator(ComponentString $component_string)
     {
         $force = cliUtils\get_flag_value($this->data, 'force', false);
         $base_namespace = '\\Nerrad\\WPCLI\\EE\\';
         $file_generator_class = $base_namespace . 'services\\file_generators\\'
-                                . $this->componentName() . 'FileGenerator';
-        $template_arguments_class = $base_namespace . 'entities\\template_arguments\\'
-                                    . $this->componentName() . 'TemplateArguments';
+                                . $this->camelizeComponentName() . 'FileGenerator';
+        $template_arguments_class = $base_namespace . 'entities\\components\\'
+                                    . $this->camelizeComponentName() . 'TemplateArguments';
+        $base_template_arguments = new AddonBaseTemplateArguments(
+            $this->addon_string,
+            $this->data,
+            $force
+        );
         try {
             return new $file_generator_class(
                 $this->addon_string,
-                new $template_arguments_class($this->addon_string, $this->data, $force)
+                new $template_arguments_class(
+                    $component_string,
+                    $base_template_arguments,
+                    $this->addon_string,
+                    $this->data,
+                    $force
+                ),
+                true
             );
         } catch (Exception $e) {
-            WP_CLI::error(
-                sprintf(
-                    'Unable to create the file generator because: %s',
-                    $e->getMessage()
-                )
-            );
+            //so there isn't a component specific file generator, so let's just load the base file generator
+            try {
+                return new BaseFileGenerator(
+                    $this->addon_string,
+                    new $template_arguments_class(
+                        $component_string,
+                        $base_template_arguments,
+                        $this->addon_string,
+                        $this->data,
+                        $force
+                    ),
+                    $force,
+                    true
+                );
+            } catch (Exception $e) {
+                //still NO file generator?  Okay let's throw the error now.
+                WP_CLI::error(
+                    sprintf(
+                        'Unable to create the file generator because: %s',
+                        $e->getMessage()
+                    )
+                );
+            }
         }
+        return null;
+    }
+
+
+    public function camelizeComponentName()
+    {
+        str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $this->componentName())));
+    }
+
+
+
+    /**
+     * Return the entire document argument that is used as the third argument when registering a command.
+     *
+     * @return array
+     */
+    function commandDocumentArgument()
+    {
+        return array(
+            'shortdesc' => $this->commandShortDescription(),
+            'synopsis' => $this->commandSynopsis()
+        );
     }
 }

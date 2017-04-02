@@ -56,11 +56,21 @@ abstract class TemplateArgumentsAbstract implements TemplateArgumentsInterface
         array_walk(array_keys(get_object_vars($this)), function ($property) use ($data) {
             if ($property === 'force'
                 || $property === 'addon_string'
-                || ! property_exists($this, 'property')
+                || ! property_exists($this, $property)
             ) {
                 return;
             }
             $this->{$property} = cliUtils\get_flag_value($data, $property, $this->{$property});
         });
+    }
+
+
+    /**
+     * Return whether to force overwrites or not.
+     * @return bool
+     */
+    public function isForce()
+    {
+        return $this->force;
     }
 }

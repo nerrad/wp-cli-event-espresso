@@ -43,14 +43,21 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
     /**
      * BaseFileGenerator constructor.
      *
-     * @param AddonString                $addon_string
+     * @param AddonString               $addon_string
      * @param TemplateArgumentsAbstract $template_arguments
+     * @param bool                      $verify                 Whether or not to verify the root addon directory exists.
      */
-    public function __construct(AddonString $addon_string, TemplateArgumentsAbstract $template_arguments)
-    {
+    public function __construct(
+        AddonString $addon_string,
+        TemplateArgumentsAbstract $template_arguments,
+        $verify = false
+    ) {
         $this->addon_string       = $addon_string;
         $this->template_arguments = $template_arguments;
         $this->directory          = $this->getAddonDirectory('eea-' . $this->addon_string->slug());
+        if ($verify) {
+            $this->verifyDirectory($this->directory);
+        }
     }
 
 
