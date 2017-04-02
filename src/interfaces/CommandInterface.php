@@ -2,11 +2,40 @@
 
 namespace Nerrad\WPCLI\EE\interfaces;
 
+/**
+ * Interface CommandInterface
+ * Any component implementing a command (or main command) should implement this interface.
+ *
+ * @package    Nerrad\WPCLI\EE
+ * @subpackage interfaces
+ * @author     Darren Ethier
+ * @since      1.0.0
+ */
 interface CommandInterface
 {
+
     /**
-     * This should take care of registering the command with WP_CLI.
-     * @return void
+     * Return the entire document argument that is used as the third argument when registering a command.
+     *
+     * @return array
      */
-    function addCommand();
+    function commandDocumentArgument();
+
+
+    /**
+     * A short description for the command.
+     *
+     * @return string
+     */
+    function commandShortDescription();
+
+
+    /**
+     * Return the synopsis array which is an array of various descriptive properties for the command.
+     *
+     * @see  wp cli cookbook (link) for example format of the synopsis arguments.
+     * @link https://make.wordpress.org/cli/handbook/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+     * @return array
+     */
+    function commandSynopsis();
 }

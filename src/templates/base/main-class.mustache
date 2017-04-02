@@ -1,0 +1,62 @@
+<?php
+
+defined('EVENT_ESPRESSO_VERSION') || exit('No direct access allowed.');
+
+
+/**
+ * Main class for {{addon_name}}
+ * @package  EventEspresso
+ * @subpackage {{addon_slug}}
+ * @author  {{addon_author}}
+ * @since {{addon_version}}
+ */
+Class EE_{{addon_package}} extends EE_Addon
+{
+    /** you should NOT run any logic in the constructor for addons
+     * because addon construction should NOT result in code execution.
+     * Successfully registering the addon via the EE_Register_Addon API
+     * should be the ONLY way that code should execute.
+     * This prevents errors happening due to incompatibilities between addons and core.
+     * If you run code here, but core deems it necessary to NOT activate this addon,
+     * then fatal errors could happen if this code attempts to reference
+     * other classes that do not exist because they have not been loaded.
+     * That said, it's still a better idea to any extra code
+     * in the after_registration() method below.
+     * */
+    // public function __construct() {}
+
+
+    /**
+     * !!! IMPORTANT !!!
+     * this is not the place to perform any logic or add any other filter or action callbacks
+     * this is just to bootstrap your addon; and keep in mind the addon might be DE-registered
+     * in which case your callbacks should probably not be executed.
+     * An EE module is typically the best place for most filter and action callbacks
+     * to be placed (relating to the primary business logic of your addon)
+     * IF however for some reason, a module does not work because you have some logic
+     * that needs to run earlier than when the modules load,
+     * then please see the after_registration() method below.
+     *
+     * @throws EE_Error
+     */
+    public static function register_addon()
+    {
+        EE_Register_Addon::register(
+            '{{addon_package}}',
+            {{addon_registration_array}}
+        )
+    }
+
+
+    /**
+     * /**
+     * uncomment this method and use it as
+     * a safe space to add additional logic like setting hooks
+     * that will run immediately after addon registration
+     * making this a great place for code that needs to be "omnipresent"
+     */
+    public function after_registration
+    {
+        //your logic here
+    }
+}

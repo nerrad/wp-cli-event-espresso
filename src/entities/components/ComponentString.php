@@ -2,53 +2,17 @@
 
 namespace Nerrad\WPCLI\EE\entities\components;
 
-use Nerrad\WPCLI\EE\interfaces\ComponentStringInterface;
+use Nerrad\WPCLI\EE\entities\AddonString;
 
-class ComponentString implements ComponentStringInterface
+/**
+ * ComponentString
+ * Components use this for each "slug" being registered by the component.
+ *
+ * @package    Nerrad\WPCLI\EE
+ * @subpackage entities\components
+ * @author     Darren Ethier
+ * @since      1.0.0
+ */
+class ComponentString extends AddonString
 {
-
-    /**
-     * Something like general-admin-page.
-     * @var string
-     */
-    protected $slug;
-
-    /**
-     * Something like General Admin Page.
-     * @var string
-     */
-    protected $name;
-
-
-    /**
-     * Something like General_Admin_Page
-     * @var string
-     */
-    protected $package;
-
-
-    public function __construct($slug)
-    {
-        $this->slug = strtolower(str_replace('_', '-', $slug));
-        $this->name = ucwords(str_replace('-', ' ', $this->slug));
-        $this->package = str_replace(' ', '_', $this->name);
-    }
-
-
-    public function slug()
-    {
-        return $this->slug;
-    }
-
-
-    public function name()
-    {
-        return $this->name;
-    }
-
-    public function package()
-    {
-        return $this->package;
-    }
-
 }
