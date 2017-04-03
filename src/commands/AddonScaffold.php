@@ -75,6 +75,7 @@ class AddonScaffold extends CommandWithComponents
     public function command()
     {
         $command_document = $this->component_manager->composeDocument($this->commandDocumentArgument());
+        // $command_document = $this->commandDocumentArgument();
         WP_CLI::add_command('ee scaffold addon', array($this, 'executeCommand'), $command_document);
         //register sub commands for scaffold
         $this->component_manager->registerSubCommandsForType(ComponentType::SCAFFOLD);
@@ -243,9 +244,10 @@ class AddonScaffold extends CommandWithComponents
      *
      * @see  wp cli cookbook (link) for example format of the synopsis arguments.
      * @link https://make.wordpress.org/cli/handbook/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+     * @param bool $skip_global
      * @return array
      */
-    function commandSynopsis()
+    function commandSynopsis($skip_global = true)
     {
         return array(
             array(
@@ -287,32 +289,38 @@ class AddonScaffold extends CommandWithComponents
             ),
             array(
                 'type'        => 'assoc',
-                'name'        => 'addon_tested_up_to',
-                'description' => 'Use this to indicate the version of WordPress the addon has been tested up to.',
+                'name'        => 'core_version_required',
+                'description' => 'Use this to indicate the version of Event Espresso this addon requires.',
                 'optional'    => true,
-                'default'     => 'The currently installed version of WordPress',
-            ),
-            array(
-                'type'        => 'flag',
-                'name'        => 'skip-tests',
-                'description' => 'Use this to indicate no generation of files for tests.',
-            ),
-            array(
-                'type'        => 'flag',
-                'name'        => 'force',
-                'description' => 'Use this to indicate overwriting any files that already exist.',
-            ),
-            array(
-                'type'        => 'flag',
-                'name'        => 'include_config',
-                'description' => 'Whether to generate a config file scaffold for the add-on.',
+                'default'     => 'The currently installed version of Event Espresso',
             ),
             array(
                 'type'        => 'assoc',
                 'name'        => 'namespace',
                 'description' => 'Request the registration of a namespace. Will attach the namespace to the plugin directory.',
                 'optional'    => true,
-                'default'     => 'EventEspresso\AddonSlug',
+                'default'     => 'EventEspresso\\AddonSlug',
+            ),
+            array(
+                'type'        => 'flag',
+                'name'        => 'skip_tests',
+                'description' => 'Use this to indicate no generation of files for tests.',
+                'optional'    => true,
+                'default'     => false,
+            ),
+            array(
+                'type'        => 'flag',
+                'name'        => 'force',
+                'description' => 'Use this to indicate overwriting any files that already exist.',
+                'optional'    => true,
+                'default'     => false,
+            ),
+            array(
+                'type'        => 'flag',
+                'name'        => 'include_config',
+                'description' => 'Whether to generate a config file scaffold for the add-on.',
+                'optional'    => true,
+                'default'     => false,
             ),
         );
     }

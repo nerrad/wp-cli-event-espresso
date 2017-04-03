@@ -84,8 +84,29 @@ class ComponentManager
             if ($component instanceof CommandInterface) {
                 $component_synopsis = $component->commandSynopsis();
                 if ($component_synopsis) {
-                    array_push($base_command_document, $component_synopsis);
+                    foreach($component_synopsis as $items) {
+                       $base_command_document['synopsis'][] = $items;
+                    }
                 }
+            }
+        });
+        //there's a weird issue with WPCLI where it appears any flag type synopsis items MUST be at the end of the
+        //synopsis array.  So let's rearrange things so that happens.
+        usort($base_command_document['synopsis'], function ($itema, $itemb) {
+            $left_type = isset($itema['type']) ? $itema['type'] : '';
+            $right_type = isset($itemb['type']) ? $itemb['type'] : '';
+            if ($left_type === 'positional' && $right_type === 'positional') {
+                return 0;
+            } elseif ($left_type === 'positional' && $right_type !== 'positional') {
+                return -1;
+            } elseif ($left_type === 'assoc' && $right_type ==='assoc'){
+                return 0;
+            } elseif ($left_type === 'assoc' && $right_type !== 'positional') {
+                return -1;
+            } elseif ($left_type === 'assoc' && $right_type === 'positional') {
+                return 1;
+            } else {
+                return 1;
             }
         });
         return $base_command_document;

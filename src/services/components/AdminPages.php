@@ -23,36 +23,39 @@ class AdminPages implements
 
     /**
      * Return an array of parts output to the registration array for this component when the addon is registered.
+     *
      * @return array
      */
     public function registrationParts()
     {
         return array(
             "'admin_path' => {$this->addon_string->constants()->path()} . 'admin'",
-            "'admin_callback' => ''"
+            "'admin_callback' => ''",
         );
     }
 
 
     /**
-     * If this component has any autoloader paths needing registered with the 'autoloader_paths' array in addon registration
-     * it should get returned via this method.
+     * If this component has any autoloader paths needing registered with the 'autoloader_paths' array in addon
+     * registration it should get returned via this method.
+     *
      * @return array
      */
     public function autoloaderPaths()
     {
-       $paths = array();
-       array_walk($this->component_strings, function (ComponentString $component_string) use ($paths) {
+        $paths = array();
+        array_walk($this->component_strings, function (ComponentString $component_string) use ($paths) {
             $paths[] = "'{$this->getAdminClassName($component_string)}' => '{$this->getAdminPath($component_string)}'";
             $paths[] = "'{$this->getAdminClassName($component_string, true)}' => '{$this->getAdminPath($component_string,true)}'";
-       });
-       return $paths;
+        });
+        return $paths;
     }
 
 
     /**
      * The name of the component. eg 'module' or 'message_type'.  Should correspond to the
      * argument key used by the related command.
+     *
      * @return string
      */
     public function componentName()
@@ -63,6 +66,7 @@ class AdminPages implements
 
     /**
      * Returns the class name assembled from known data points.
+     *
      * @param ComponentString $component_string
      * @param bool            $init
      * @return string
@@ -108,8 +112,7 @@ class AdminPages implements
             $assoc_args,
             $addon_details
         );
-        foreach($this->file_generators as $file_generator)
-        {
+        foreach ($this->file_generators as $file_generator) {
             $file_generator->writeFiles();
         }
     }
@@ -129,29 +132,43 @@ class AdminPages implements
      *
      * @see  wp cli cookbook (link) for example format of the synopsis arguments.
      * @link https://make.wordpress.org/cli/handbook/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+     * @param bool $skip_global
      * @return array
      */
-    function commandSynopsis()
+    function commandSynopsis($skip_global = true)
     {
-        return array(
-            array(
-                'type' => 'positional',
-                'name' => 'addon_slug',
-                'description' => 'The slug used to reference this add-on. Used for generating classnames and other references for the addon.',
-                'optional' => false,
-                'multiple' => false
-            ),
-            array(
-                'type' => 'assoc',
-                'name' => 'admin_pages',
-                'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
-                'optional' => false
-            ),
-            array(
-                'type' => 'flag',
-                'name' => 'force',
-                'description' => 'Use this to indicate overwriting any files that already exist.',
-            )
-        );
+        if ($skip_global) {
+            return array(
+                array(
+                    'type'        => 'assoc',
+                    'name'        => 'admin_pages',
+                    'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
+                    'optional'    => true,
+                ),
+            );
+        } else {
+            return array(
+                array(
+                    'type'        => 'positional',
+                    'name'        => 'addon_slug',
+                    'description' => 'The slug used to reference this add-on. Used for generating classnames and other references for the addon.',
+                    'optional'    => false,
+                    'multiple'    => false,
+                ),
+                array(
+                    'type'        => 'assoc',
+                    'name'        => 'admin_pages',
+                    'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
+                    'optional'    => false,
+                ),
+                array(
+                    'type'        => 'flag',
+                    'name'        => 'force',
+                    'description' => 'Use this to indicate overwriting any files that already exist.',
+                    'optional'    => true,
+                    'default'     => false,
+                ),
+            );
+        }
     }
 }

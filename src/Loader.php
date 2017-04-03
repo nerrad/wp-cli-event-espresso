@@ -59,7 +59,6 @@ class Loader
                 if ($this->getCommandParent($class_to_instantiate) === 'Nerrad\WPCLI\EE\abstracts\CommandWithComponents') {
                     /** @var \Nerrad\WPCLI\EE\interfaces\BaseCommandInterface $command */
                     $command = new $class_to_instantiate($component_manager);
-                    $command->command();
                 } else {
                     /** @var \Nerrad\WPCLI\EE\interfaces\BaseCommandInterface $command */
                     $command = new $class_to_instantiate();

@@ -35,7 +35,9 @@ interface CommandInterface
      *
      * @see  wp cli cookbook (link) for example format of the synopsis arguments.
      * @link https://make.wordpress.org/cli/handbook/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+     * @param bool $skip_global  This indicates whether the synopsis returned should include any attributes that a parent
+     *                           command might already have.
      * @return array
      */
-    function commandSynopsis();
+    function commandSynopsis($skip_global = true);
 }

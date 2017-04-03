@@ -179,7 +179,7 @@ trait ComponentScaffoldTrait
     {
         return array(
             'shortdesc' => $this->commandShortDescription(),
-            'synopsis' => $this->commandSynopsis()
+            'synopsis' => $this->commandSynopsis(false)
         );
     }
 }
