@@ -103,7 +103,7 @@ class ComponentType
         if (! $this->isOfComponentType($component)) {
             return;
         }
-        $component->{$this->initializeMethod($component)}($data, $addon_string);
+        $component->{$this->initializeMethod()}($data, $addon_string);
     }
 
 
@@ -178,7 +178,7 @@ class ComponentType
     ) {
         $should_run = $this->isOfComponentType($component) && $this->isOfCommandType($component);
         if ($check_arguments) {
-            $should_run = isset($associative_arguments[strtolower($component->componentName())])
+            $should_run = !empty($associative_arguments[strtolower($component->componentName())])
                 ? $should_run
                 : false;
         }
@@ -221,7 +221,7 @@ class ComponentType
      * @param \Nerrad\WPCLI\EE\interfaces\ComponentInterface $component
      * @return string
      */
-    private function initializeMethod(ComponentInterface $component)
+    private function initializeMethod()
     {
         //something like initializeScaffold
         return 'initialize' . $this->type;

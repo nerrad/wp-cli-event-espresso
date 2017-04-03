@@ -2,6 +2,7 @@
 
 namespace Nerrad\WPCLI\EE\services;
 
+use Nerrad\WPCLI\EE\entities\AddonScaffoldFlag;
 use Nerrad\WPCLI\EE\interfaces\CommandInterface;
 use Nerrad\WPCLI\EE\interfaces\ComponentHasScaffoldInterface;
 use Nerrad\WPCLI\EE\interfaces\InitializeBeforeCommandInterface;
@@ -123,7 +124,7 @@ class ComponentManager
     public function initialize($data, AddonString $addon_string, $component_type = ComponentType::SCAFFOLD)
     {
         //check if the components have already been initialized for this component type.
-        if (isset($this->initialized[$component_type])) {
+        if (! empty($this->initialized[$component_type])) {
             return;
         }
         $this->data         = $data;
@@ -261,14 +262,6 @@ class ComponentManager
      */
     public function removeComponent($component_name)
     {
-        if (! isset($this->components[$component_name])) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The given component name (%s) is not a registered component so it cannot be removed.',
-                    $component_name
-                )
-            );
-        }
         unset($this->components[$component_name]);
     }
 
@@ -302,6 +295,30 @@ class ComponentManager
 
         //k let's return the parts as the string for the template.
         return $this->formattedString($this->registration_parts);
+    }
+
+
+    /**
+     * This unsets from the components any that should not be implemented because they are not requested.
+     * @param \Nerrad\WPCLI\EE\entities\AddonScaffoldFlag $scaffold_flag
+     */
+    public function removeComponentsNotRequested(AddonScaffoldFlag $scaffold_flag)
+    {
+        //remove any components that are based on flags
+        if ($scaffold_flag->isSkipTests()) {
+            $this->removeComponent('tests');
+        }
+
+        if (! $scaffold_flag->isIncludeConfig()) {
+            $this->removeComponent('config');
+        }
+
+        //now loop through components and see if the data has the argument for the component and its not empty
+        foreach ($this->components as $component) {
+            if (empty($this->data[$component->componentName()])) {
+                unset($this->components[$component->componentName()]);
+            }
+        }
     }
 
 

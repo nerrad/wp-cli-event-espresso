@@ -58,14 +58,8 @@ class AddonScaffold extends CommandWithComponents
         $this->data                = $data;
         $this->addon_string        = $addon_string;
         $this->addon_scaffold_flag = new AddonScaffoldFlag($data);
-        //remove any components that are based on flags
-        if ($this->addon_scaffold_flag->isSkipTests()) {
-            $this->component_manager->removeComponent('tests');
-        }
-
-        if (! $this->addon_scaffold_flag->isIncludeConfig()) {
-            $this->component_manager->removeComponent('config');
-        }
+        $this->component_manager->initialize($this->data, $this->addon_string, ComponentType::SCAFFOLD);
+        $this->component_manager->removeComponentsNotRequested($this->addon_scaffold_flag);
     }
 
 
@@ -88,7 +82,6 @@ class AddonScaffold extends CommandWithComponents
     public function executeCommand($args, array $assoc_args = array())
     {
         $this->initializeBase($args[0], $assoc_args);
-        $this->component_manager->initialize($this->data, $this->addon_string, ComponentType::SCAFFOLD);
         //get the registration array element for the template
         $this->data['addon_registration_array'] =
             $this->component_manager->generateAndReturnRegistrationPartsTemplateString();

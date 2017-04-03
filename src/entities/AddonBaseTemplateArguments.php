@@ -241,7 +241,7 @@ class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
      */
     public function templates($addon_directory)
     {
-        $template_path = Locations::templatesPath() . 'base';
+        $template_path = Locations::templatesPath() . 'base/';
         return array(
             $addon_directory . 'circle.yml' => $template_path . 'circle.yml.mustache',
             $addon_directory . '.gitignore' => $template_path . 'gitignore.mustache',
