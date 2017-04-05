@@ -181,7 +181,7 @@ class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
                     $this->{$property} = 'eea-' . $this->addon_string->slug();
                     break;
                 case $property === 'addon_underscore_slug':
-                    $this->{$property} = 'eea_' . strtolower($this->addon_string->slug());
+                    $this->{$property} = 'eea_' . str_replace('-', '_', $this->addon_string->slug());
                     break;
                 case $property === 'addon_package':
                     $this->{$property} = $this->addon_string->package();

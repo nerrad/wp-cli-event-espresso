@@ -13,6 +13,7 @@ use Exception;
 use Nerrad\WPCLI\EE\entities\AddonString;
 use Nerrad\WPCLI\EE\entities\components\ComponentType;
 use InvalidArgumentException;
+use Nerrad\WPCLI\EE\services\utils\Template;
 
 
 /**
@@ -226,7 +227,7 @@ class ComponentManager
     {
         $this->registration_parts = array(
             "'version' => {$this->addon_string->constants()->version()}",
-            "'plugin_slug' => 'eea-' . {$this->addon_string->slug()}'",
+            "'plugin_slug' => 'eea-{$this->addon_string->slug()}'",
             "'min_core_version' => {$this->addon_string->constants()->coreVersionRequired()}",
             "'main_file_path' => {$this->addon_string->constants()->pluginFile()}",
         );
@@ -355,10 +356,10 @@ class ComponentManager
     {
         return 'array('
                . PHP_EOL
-               . "\t"
-               . implode(',' . PHP_EOL . "\t", $parts)
+               . Template::xIndents(4)
+               . implode(',' . PHP_EOL . Template::xIndents(4), $parts)
                . PHP_EOL
+               . Template::xIndents(3)
                . ')';
     }
-
 }

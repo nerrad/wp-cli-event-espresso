@@ -11,8 +11,8 @@
 // define versions and this file
 define('{{addon_core_version_required_constant}}', '{{addon_core_version_required}}');
 define('{{addon_version_constant}}', '{{addon_version}}');
-define('{{addon_plugin_file_constant}}',  __FILE__);
-define('{{addon_basename_constant}}', plugin_basename({{addon_plugin_file_constant}})));
+define('{{addon_plugin_file_constant}}', __FILE__);
+define('{{addon_basename_constant}}', plugin_basename({{addon_plugin_file_constant}}));
 define('{{addon_path_constant}}', plugin_dir_path(__FILE__));
 define('{{addon_url_constant}}', plugin_dir_url(__FILE__));
 
@@ -23,7 +23,7 @@ define('{{addon_url_constant}}', plugin_dir_url(__FILE__));
  */
 function {{addon_underscore_slug}}_plugin_activation_errors()
 {
-    if ( WP_DEBUG ) {
+    if (WP_DEBUG) {
         $activation_errors = ob_get_contents();
         file_put_contents(
             EVENT_ESPRESSO_UPLOAD_DIR . 'logs' . DS . '{{addon_slug}}_plugin_activation_errors.html',
@@ -42,7 +42,7 @@ function load_{{addon_underscore_slug}}()
 {
     if (class_exists('EE_Addon')) {
         // new_addon version
-        require_once (plugin_dir_path(__FILE__) . 'EE_{{addon_package}}.class.php');
+        require_once plugin_dir_path(__FILE__) . 'EE_{{addon_package}}.class.php';
         EE_{{addon_package}}::register_addon();
     } else {
         add_action('admin_notices', '{{addon_underscore_slug}}_activation_error');

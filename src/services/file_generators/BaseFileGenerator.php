@@ -70,7 +70,7 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
         $files_written = $this->createFiles(
             array_map(
                 function ($template_path) use ($template_data) {
-                    cliUtils\mustache_render($template_path, $template_data);
+                    return cliUtils\mustache_render($template_path, $template_data);
                 },
                 $this->template_arguments->templates($this->directory)
             ),

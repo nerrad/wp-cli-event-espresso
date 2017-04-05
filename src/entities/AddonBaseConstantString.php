@@ -80,7 +80,7 @@ class AddonBaseConstantString
      */
     private function build(AddonString $addon_string)
     {
-        $package_with_prefix = 'EE_' . $addon_string->package() . '_';
+        $package_with_prefix = 'EE_' . strtoupper($addon_string->package()) . '_';
         $constants_map       = array(
             'core_version_required' => $package_with_prefix . 'CORE_VERSION_REQUIRED',
             'version'               => $package_with_prefix . 'VERSION',
@@ -90,7 +90,7 @@ class AddonBaseConstantString
             'url'                   => $package_with_prefix . 'URL',
         );
         foreach ($constants_map as $property => $constant_string) {
-            if (isset($this->{$property})) {
+            if (property_exists($this, $property)) {
                 $this->{$property} = $constant_string;
             }
         }

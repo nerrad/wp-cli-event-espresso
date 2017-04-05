@@ -44,18 +44,16 @@ Class EE_{{addon_package}} extends EE_Addon
         EE_Register_Addon::register(
             '{{addon_package}}',
             {{addon_registration_array}}
-        )
+        );
     }
 
 
     /**
-     * /**
-     * uncomment this method and use it as
-     * a safe space to add additional logic like setting hooks
-     * that will run immediately after addon registration
-     * making this a great place for code that needs to be "omnipresent"
+     *
+     * Use this method as a safe space to add additional logic like setting hooks that will run immediately after
+     * addon registration making this a great place for code that needs to be "omnipresent".
      */
-    public function after_registration
+    public function after_registration()
     {
         //your logic here
     }
