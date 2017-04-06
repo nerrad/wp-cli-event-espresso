@@ -9,11 +9,11 @@ Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contr
 
 ## Using
 
-
+Currently documentation is being developed in the [wiki](https://github.com/nerrad/wp-cli-event-espresso/wiki/EventEspresso-WP-CLI-Documentation)
 
 ## Installing
 
-Installing this package requires WP-CLI v0.23.0 or greater. Update to the latest stable release with `wp cli update`.
+Installing this package requires WP-CLI v1.1.0 or greater. Update to the latest stable release with `wp cli update`.
 
 Once you've done so, you can install this package with `wp package install nerrad/wp-cli-event-espresso`.
 
@@ -21,7 +21,7 @@ Once you've done so, you can install this package with `wp package install nerra
 
 We appreciate you taking the initiative to contribute to this project.
 
-Contributing isn’t limited to just code. We encourage you to contribute in the way that best fits your abilities, by writing tutorials, giving a demo at your local meetup, helping other users with their support questions, or revising our documentation.
+Contributing isn’t limited to just code. We encourage you to contribute in the way that best fits your abilities, by writing tutorials, giving a demo at your local meetup, helping other users with their support questions, or revising our [documentation](https://github.com/nerrad/wp-cli-event-espresso/wiki/EventEspresso-WP-CLI-Documentation).
 
 ### Reporting a bug
 
@@ -31,9 +31,9 @@ Before you create a new issue, you should [search existing issues](https://githu
 
 Once you’ve done a bit of searching and discovered there isn’t an open or fixed issue for your bug, please [create a new issue](https://github.com/nerrad/wp-cli-event-espresso/issues/new) with the following:
 
-1. What you were doing (e.g. "When I run `wp post list`").
+1. What you were doing (e.g. "When I run `wp ee scaffold`").
 2. What you saw (e.g. "I see a fatal about a class being undefined.").
-3. What you expected to see (e.g. "I expected to see the list of posts.")
+3. What you expected to see (e.g. "I expected to see files generated.")
 
 Include as much detail as you can, and clear steps to reproduce if possible.
 
@@ -47,6 +47,3 @@ Once you've decided to commit the time to seeing your pull request through, plea
 2. Submit your pull request early for feedback.
 3. Include functional tests with your changes. [Read the WP-CLI documentation](https://wp-cli.org/docs/pull-requests/#functional-tests) for an introduction.
 4. Follow the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/).
-
-
-*This README.md is generated dynamically from the project's codebase using `wp scaffold package-readme` ([doc](https://github.com/wp-cli/scaffold-package-command#wp-scaffold-package-readme)). To suggest changes, please submit a pull request against the corresponding part of the codebase.*
