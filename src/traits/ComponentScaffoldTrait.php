@@ -76,6 +76,7 @@ trait ComponentScaffoldTrait
 
     /**
      * Returns whatever slugs were sent in as a part of the argument array for the component.
+     * If there ARE no slugs, then we use the addon-slug as the slug.
      *
      * @return array
      */
@@ -84,9 +85,7 @@ trait ComponentScaffoldTrait
         $slugs = isset($this->data[$this->componentName()])
             ? explode(',', $this->data[$this->componentName()])
             : array();
-        return empty($slugs) && isset($this->data['slugs'])
-            ? explode(',', $this->data['slugs'])
-            : array();
+        return empty($slugs) ? array($this->addon_string->slug()) : $slugs;
     }
 
 
@@ -99,7 +98,7 @@ trait ComponentScaffoldTrait
     {
         $slugs = $this->getSlugs();
         array_walk($slugs, function ($slug) {
-            $this->component_strings[] = new ComponentString($slug);
+            $this->component_strings[] = new ComponentString(trim($slug));
         });
     }
 
@@ -123,6 +122,9 @@ trait ComponentScaffoldTrait
             $force
         );
         try {
+            if (! class_exists($file_generator_class)) {
+                throw new Exception(sprintf('File generator does not exist %s', $file_generator_class));
+            }
             return new $file_generator_class(
                 $this->addon_string,
                 new $template_arguments_class(
@@ -165,7 +167,7 @@ trait ComponentScaffoldTrait
 
     public function camelizeComponentName()
     {
-        str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $this->componentName())));
+        return str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $this->componentName())));
     }
 
 

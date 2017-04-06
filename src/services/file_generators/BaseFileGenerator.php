@@ -8,6 +8,7 @@ use Nerrad\WPCLI\EE\interfaces\BaseFileGeneratorInterface;
 use Nerrad\WPCLI\EE\traits\ScaffoldFiles;
 use Nerrad\WPCLI\EE\abstracts\TemplateArgumentsAbstract;
 use WP_CLI\Utils as cliUtils;
+use WP_CLI;
 
 /**
  * BaseFileGenerator
@@ -66,6 +67,7 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
      */
     public function writeFiles()
     {
+        $this->createSubdirectories();
         $template_data = $this->template_arguments->toArray();
         $files_written = $this->createFiles(
             array_map(
@@ -76,6 +78,51 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
             ),
             $this->template_arguments->isForce()
         );
-        $this->logFilesWritten($files_written, 'Files for addon created.');
+        $this->logFilesWritten($files_written, 'Files for created:');
+    }
+
+
+    /**
+     * @return \Nerrad\WPCLI\EE\interfaces\TemplateArgumentsInterface
+     */
+    public function getTemplateArguments()
+    {
+        return $this->template_arguments;
+    }
+
+
+    /**
+     * If the provided TemplateArguments object has any subdirectories required for the template, then this method
+     * will take care of ensuring they are present.
+     */
+    public function createSubdirectories()
+    {
+        $wp_filesystem = $this->initWpFilesystem();
+        $subdirectories = $this->template_arguments->subdirectories($this->directory);
+        if ($subdirectories) {
+            foreach ($subdirectories as $path => $directory_to_create) {
+                //first array element is $path, second is directory to create.
+                if (! $wp_filesystem->exists($path)) {
+                    WP_CLI::error(
+                        sprintf(
+                            'The path given (%s) does not exist and thus we cannot create the directory (%s).',
+                            $path,
+                            $directory_to_create
+                        )
+                    );
+                }
+                //don't attempt to create the directory if it already exists
+                if (! $wp_filesystem->exists($path . $directory_to_create)) {
+                    if (! $wp_filesystem->mkdir($path . $directory_to_create)) {
+                        WP_CLI::error(
+                            sprintf(
+                                'Unable to create directory (%s)',
+                                $path . $directory_to_create
+                            )
+                        );
+                    }
+                }
+            }
+        }
     }
 }

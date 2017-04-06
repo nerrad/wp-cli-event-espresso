@@ -60,7 +60,7 @@ class ComponentType
      */
     public function getComponentInterface()
     {
-        return 'ComponentHas' . $this->type;
+        return 'Nerrad\\WPCLI\\EE\\interfaces\\ComponentHas' . $this->type . 'Interface';
     }
 
 
@@ -71,7 +71,7 @@ class ComponentType
      */
     public function getCommandInterface()
     {
-        return $this->type . 'CommandInterface';
+        return 'Nerrad\\WPCLI\\EE\\interfaces\\' . $this->type . 'CommandInterface';
     }
 
 
@@ -197,7 +197,7 @@ class ComponentType
     public function subCommandTrigger(ComponentInterface $component)
     {
         // something like ee module scaffold
-        return 'ee ' . strtolower($component->componentName()) . ' ' . strtolower($this->type);
+        return 'ee ' . strtolower($this->type) . ' ' . strtolower($component->componentName());
     }
 
 

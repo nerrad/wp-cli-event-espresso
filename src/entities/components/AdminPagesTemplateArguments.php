@@ -19,6 +19,11 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
     /**
      * @var string
      */
+    private $admin_page_package_capitalized = 'NEW_ADMIN_PAGE';
+
+    /**
+     * @var string
+     */
     private $admin_page_underscore_slug = 'new_admin_page';
 
     /**
@@ -79,9 +84,10 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
         $data,
         $force = false
     ) {
-        parent::__construct($addon_string, $data, $force);
+        $this->addon_string = $addon_string;
         $this->component_string = $component_string;
         $this->addon_base_template_arguments = $addon_base_template_arguments;
+        parent::__construct($addon_string, $data, $force);
     }
 
     /**
@@ -107,7 +113,7 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
      */
     public function templates($addon_directory)
     {
-        $template_path = Locations::templatesPath() . 'admin';
+        $template_path = Locations::templatesPath() . 'admin/';
         $addon_directory .= 'admin/' . $this->admin_page_underscore_slug . '/';
         return array(
             $addon_directory . $this->admin_page_package . '_Admin_Page.core.php'
@@ -140,6 +146,9 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
                 case $property === 'addon_author':
                     $this->{$property} = $this->addon_base_template_arguments->getAddonAuthor();
                     break;
+                case $property === 'admin_page_package_capitalized':
+                    $this->{$property} = strtoupper($this->component_string->package());
+                    break;
                 case $property === 'addon_version':
                     $this->{$property} = $this->addon_base_template_arguments->getAddonVersion();
                     break;
@@ -164,4 +173,37 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
             || ! property_exists($this, $property);
     }
 
+    /**
+     * When templates have subdirectories that need created for holding generated templates then this method should
+     * return instructions for what needs created. The expected format is an array where each "row"
+     * represents the directory created.  Example:
+     *
+     * array(
+     *  '/root/path' => 'admin',
+     *  '/root/path/admin' => 'some-other-directory'
+     * )
+     *
+     * So arrays are parsed in order indicating what directories should be checked for first and then created if
+     * missing. In this example the file generator receiving this will:
+     *
+     * 1. Check if `/root/path/` exists. If it does, then it will check if `admin` exists in that path and create it if
+     *      it doesn't.
+     * 2. Check if `/root/path/admin` exists.  If it doesn't then it will abort.  If it does, then it will check if
+     *      'some-other-directory' exists within that path and create it if it doesn't.  And so on.
+     *
+     * So the order of the elements in the array matters because if any path provided in the key doesn't exist
+     * then the directory doesn't get created.
+     *
+     * @param string $base_directory  This serves as the base for all the paths and should be prepended to the first
+     *                                element in each row.
+     * @return array
+     */
+    public function subdirectories($base_directory)
+    {
+        return array(
+            $base_directory => 'admin',
+            $base_directory . 'admin/' => $this->admin_page_underscore_slug,
+            $base_directory . 'admin/' . $this->admin_page_underscore_slug . '/' => 'templates'
+        );
+    }
 }

@@ -44,7 +44,7 @@ class AdminPages implements
     public function autoloaderPaths()
     {
         $paths = array();
-        array_walk($this->component_strings, function (ComponentString $component_string) use ($paths) {
+        array_walk($this->component_strings, function (ComponentString $component_string) use (&$paths) {
             $paths[] = "'{$this->getAdminClassName($component_string)}' => '{$this->getAdminPath($component_string)}'";
             $paths[] = "'{$this->getAdminClassName($component_string, true)}' => '{$this->getAdminPath($component_string,true)}'";
         });
@@ -88,25 +88,48 @@ class AdminPages implements
     private function getAdminPath(ComponentString $component_string, $init = false)
     {
         return $this->addon_string->constants()->path()
-               . 'admin/'
-               . strtolower($component_string->name())
+               . '/admin/'
+               . strtolower($component_string->package())
                . '/'
                . $this->getAdminClassName($component_string, $init)
                . '.core.php';
     }
 
     /**
-     * This is what would get called when the command executes.
+     * Generate scaffold for admin pages.
+     *
+     * When called individually this command only generates the files related to admin pages but does not generate
+     * items included in main addon code, nor does it generate the main addon scaffold.  It's purpose is for when
+     * you want to quickly add the scaffold for additional admin pages after the fact.
+     *
+     * ## Options
+     *
+     * <addon_slug>
+     * : The slug of the addon the admin pages are being added to.
+     *
+     * [--admin_pages=<admin_page_slug>]
+     * : Comma-delimited list of slugs for each set of admin_page elements you want created.
+     *
+     * [--addon_author=<name>]
+     * : Adds your name with the @author tag in any phpdocs
+     *
+     * [--force]
+     * : Use to indicate overwriting any files that may already exist for the given slugs.
+     * default: false
+     *
+     * ## Examples
+     *
+     *      # Generate Admin Pages for the slugs system_settings and system_shortcodes for my-awesome-addon.
+     *      $ wp ee scaffold admin_pages my-awesome-addon --admin_pages=system_settings,system_shortcodes
+     *      Success: Files for addon created.
+     *      Success: /path/to/wp-plugins/eea-my-awesome-addon/admin/system_settings/System_Settings_Admin_Page.core.php
+     *      Success: /path/to/wp-plugins/eea-my-awesome-addon/admin/system_settings/System_Settings_Admin_Page_Init.core.php
+     *      Success: /path/to/wp-plugins/eea-my-awesome-addon/admin/system_shortcodes/System_Shortcodes_Admin_Page.core.php
+     *      Success: /path/to/wp-plugins/eea-my-awesome-addon/admin/system_shortcodes/System_Shortcodes_Admin_Page_Init.core.php
+     *
      */
     public function scaffoldCommand($args, array $assoc_args = array())
     {
-        if (cliUtils\get_flag_value($assoc_args, 'ignore_main_file_warning', false)) {
-            WP_CLI::warning(
-                'When called directly, this command will create related scaffold files but will not automatically '
-                . 'register this component (if needed) with the EE_Addon::register_addon options in the main addon '
-                . 'class.  You will need to manually do that.'
-            );
-        }
         $addon_details = $this->getAddonDetails($args[0]);
         $this->initializeScaffold(
             $assoc_args,
@@ -114,6 +137,19 @@ class AdminPages implements
         );
         foreach ($this->file_generators as $file_generator) {
             $file_generator->writeFiles();
+        }
+
+        if (! cliUtils\get_flag_value($assoc_args, 'ignore_main_file_warning', false)) {
+            WP_CLI::warning(
+                "When called directly, this command will create related scaffold files but will not automatically\n "
+                . "register this component (if needed) with the EE_Addon::register_addon options in the main addon\n "
+                . "class.  You will need to manually do that.\n"
+                . "\n Here's what you can add to the registration array found in the main class file:\n"
+                . "\nTo the autoloader_paths element:\n"
+                . print_r($this->autoloaderPaths(), true)
+                . "\n\n And to the main array:\n"
+                . print_r($this->registrationParts(), true)
+            );
         }
     }
 
@@ -160,6 +196,7 @@ class AdminPages implements
                     'name'        => 'admin_pages',
                     'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
                     'optional'    => false,
+                    'multiple' => true,
                 ),
                 array(
                     'type'        => 'flag',

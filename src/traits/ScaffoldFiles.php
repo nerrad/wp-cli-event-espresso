@@ -84,14 +84,14 @@ trait ScaffoldFiles
     private function logFilesWritten($files_written, $prepend_success_messages = '', $wrapup_message_fail = '')
     {
         if ($files_written) {
+            $success_message = '';
             if ($prepend_success_messages) {
-                WP_CLI::success($prepend_success_messages . PHP_EOL);
+                $success_message .= $prepend_success_messages . PHP_EOL;
             }
             foreach ($files_written as $file) {
-                WP_CLI::success(
-                    "\t" . $file . PHP_EOL
-                );
+                $success_message .=  "\t * " . $file . PHP_EOL;
             }
+            WP_CLI::success($success_message);
         } else {
             if ($wrapup_message_fail) {
                 WP_CLI::warning($wrapup_message_fail);
