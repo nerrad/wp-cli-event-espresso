@@ -15,7 +15,7 @@ Currently documentation is being developed in the [wiki](https://github.com/nerr
 
 Installing this package requires WP-CLI v1.1.0 or greater. Update to the latest stable release with `wp cli update`.
 
-Once you've done so, you can install this package with `wp package install nerrad/wp-cli-event-espresso`.
+Once you've done so, you can install this package with `wp package install git@github.com:nerrad/wp-cli-event-espresso.git`.
 
 ## Contributing
 
