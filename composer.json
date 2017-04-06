@@ -4,7 +4,13 @@
     "type": "wp-cli-package",
     "homepage": "https://github.com/nerrad/wp-cli-event-espresso",
     "license": "MIT",
-    "authors": [],
+    "authors": [
+      {
+        "name" : "Darren Ethier",
+        "email" : "darren@roughsmootheng.in",
+        "homepage" : "http://darrenethier.com"
+      }
+    ],
     "minimum-stability": "dev",
     "autoload": {
         "files": [ "command.php" ],
