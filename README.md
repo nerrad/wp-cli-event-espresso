@@ -1,7 +1,7 @@
 nerrad/wp-cli-event-espresso
 ============================
 
-WP CLI commands for the Event Espresso plugin
+WP CLI commands for the [Event Espresso plugin](https://github.com/eventespresso/event-espresso-core)
 
 [![Build Status](https://travis-ci.org/nerrad/wp-cli-event-espresso.svg?branch=master)](https://travis-ci.org/nerrad/wp-cli-event-espresso)
 
