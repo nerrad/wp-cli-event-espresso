@@ -46,4 +46,4 @@ Once you've decided to commit the time to seeing your pull request through, plea
 1. Create a feature branch for each contribution.
 2. Submit your pull request early for feedback.
 3. Include functional tests with your changes. [Read the WP-CLI documentation](https://wp-cli.org/docs/pull-requests/#functional-tests) for an introduction.
-4. Follow the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/).
+4. Follow the [PSR Standards](http://www.php-fig.org/psr/psr-2/).
