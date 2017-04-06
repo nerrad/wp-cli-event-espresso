@@ -9,7 +9,7 @@ Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contr
 
 ## Using
 
-Currently documentation is being developed in the [wiki](https://github.com/nerrad/wp-cli-event-espresso/wiki/EventEspresso-WP-CLI-Documentation)
+Currently documentation is being developed in the [wiki](https://github.com/nerrad/wp-cli-event-espresso/wiki)
 
 ## Installing
 
@@ -21,7 +21,7 @@ Once you've done so, you can install this package with `wp package install nerra
 
 We appreciate you taking the initiative to contribute to this project.
 
-Contributing isn’t limited to just code. We encourage you to contribute in the way that best fits your abilities, by writing tutorials, giving a demo at your local meetup, helping other users with their support questions, or revising our [documentation](https://github.com/nerrad/wp-cli-event-espresso/wiki/EventEspresso-WP-CLI-Documentation).
+Contributing isn’t limited to just code. We encourage you to contribute in the way that best fits your abilities, by writing tutorials, giving a demo at your local meetup, helping other users with their support questions, or revising our [documentation](https://github.com/nerrad/wp-cli-event-espresso/wiki).
 
 ### Reporting a bug
 
