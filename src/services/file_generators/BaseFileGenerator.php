@@ -78,7 +78,7 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
             ),
             $this->template_arguments->isForce()
         );
-        $this->logFilesWritten($files_written, 'Files for created:');
+        $this->logFilesWritten($files_written, 'Files created:');
     }
 
 
