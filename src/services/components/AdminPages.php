@@ -195,8 +195,14 @@ class AdminPages implements
                     'type'        => 'assoc',
                     'name'        => 'admin_pages',
                     'description' => 'A comma-delimited list of admin_page slugs for pages you\'d like to create',
-                    'optional'    => false,
-                    'multiple' => true,
+                    'optional'    => true,
+                    'multiple'    => true,
+                ),
+                array(
+                    'type'        => 'assoc',
+                    'name'        => 'addon_author',
+                    'description' => 'Adds the given name with the @author tag in any phpdocs',
+                    'optional'    => true,
                 ),
                 array(
                     'type'        => 'flag',
