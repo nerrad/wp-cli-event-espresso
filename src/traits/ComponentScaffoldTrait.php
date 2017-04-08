@@ -177,11 +177,63 @@ trait ComponentScaffoldTrait
      *
      * @return array
      */
-    function commandDocumentArgument()
+    public function commandDocumentArgument()
     {
         return array(
             'shortdesc' => $this->commandShortDescription(),
             'synopsis' => $this->commandSynopsis(false)
         );
     }
+
+
+    /**
+     * When components are called directly, the arguments added to the registration array for the add-on are not
+     * added but are printed to STDOUT as part of a warning block.  This prints them so they are easier to copy for
+     * pasting into the class.
+     */
+    public function registryArgumentWarning()
+    {
+        $colorized_strings = array(
+            'class_reference' => WP_CLI::colorize('%9EE_Addon::register_addon%n'),
+            'autoloaders_path' => WP_CLI::colorize('%9%bautoloader_paths%n'),
+            'registration_options_array' => WP_CLI::colorize('%9%bmain array%n'),
+            'autoloader_string' => $this->convertArrayToString($this->autoloaderPaths()),
+            'main_array_string' => $this->convertArrayToString($this->registrationParts()),
+            'copy_below_line' => WP_CLI::colorize('%9--- Copy below this line ---%n'),
+            'copy_above_line' => WP_CLI::colorize('%9--- Copy above this line ---%n'),
+        );
+        return <<<EOT
+When called directly, this command will create related scaffold files
+but will not automatically register this component (if needed) with the
+{$colorized_strings['class_reference']} options in the main class.  You will need to
+manually do that.
+
+Here's what you can add to the registration array found in the main class
+file:
+
+{$colorized_strings['autoloaders_path']} element:
+
+{$colorized_strings['copy_below_line']}
+{$colorized_strings['autoloader_string']}
+{$colorized_strings['copy_above_line']}
+
+Add below to {$colorized_strings['registration_options_array']}:
+
+{$colorized_strings['copy_below_line']}
+{$colorized_strings['main_array_string']}
+{$colorized_strings['copy_above_line']}
+EOT;
+    }
+
+
+
+    /**
+     * Takes care of converting an array to a string where each value of the array is an element
+     * @param $array_value
+     */
+    private function convertArrayToString($array_value)
+    {
+        return implode("\n", $array_value);
+    }
+
 }

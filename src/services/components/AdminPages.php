@@ -140,15 +140,8 @@ class AdminPages implements
         }
 
         if (! cliUtils\get_flag_value($assoc_args, 'ignore_main_file_warning', false)) {
-            WP_CLI::warning(
-                "When called directly, this command will create related scaffold files but will not automatically\n "
-                . "register this component (if needed) with the EE_Addon::register_addon options in the main addon\n "
-                . "class.  You will need to manually do that.\n"
-                . "\n Here's what you can add to the registration array found in the main class file:\n"
-                . "\nTo the autoloader_paths element:\n"
-                . print_r($this->autoloaderPaths(), true)
-                . "\n\n And to the main array:\n"
-                . print_r($this->registrationParts(), true)
+            WP_CLI::log(
+                $this->registryArgumentWarning()
             );
         }
     }
