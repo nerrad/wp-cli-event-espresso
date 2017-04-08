@@ -4,6 +4,7 @@ namespace Nerrad\WPCLI\EE\traits;
 
 use cli;
 use WP_CLI;
+use WP_CLI\Utils as cliTools;
 
 /**
  * ScaffoldFiles
@@ -88,10 +89,15 @@ trait ScaffoldFiles
             if ($prepend_success_messages) {
                 $success_message .= $prepend_success_messages . PHP_EOL;
             }
+            $file_table = array();
             foreach ($files_written as $file) {
-                $success_message .=  "\t * " . $file . PHP_EOL;
+                $file_table[] = array(
+                    'File' => basename($file),
+                    'Path' => $file
+                );
             }
             WP_CLI::success($success_message);
+            cliTools\format_items('table', $file_table, array('File', 'Path'));
         } else {
             if ($wrapup_message_fail) {
                 WP_CLI::warning($wrapup_message_fail);
