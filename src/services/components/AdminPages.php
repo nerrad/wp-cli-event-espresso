@@ -45,8 +45,8 @@ class AdminPages implements
     {
         $paths = array();
         array_walk($this->component_strings, function (ComponentString $component_string) use (&$paths) {
-            $paths[] = "'{$this->getAdminClassName($component_string)}' => '{$this->getAdminPath($component_string)}'";
-            $paths[] = "'{$this->getAdminClassName($component_string, true)}' => '{$this->getAdminPath($component_string,true)}'";
+            $paths[] = "'{$this->getAdminClassName($component_string)}' => {$this->getAdminPath($component_string)}";
+            $paths[] = "'{$this->getAdminClassName($component_string, true)}' => {$this->getAdminPath($component_string,true)}";
         });
         return $paths;
     }
@@ -88,11 +88,11 @@ class AdminPages implements
     private function getAdminPath(ComponentString $component_string, $init = false)
     {
         return $this->addon_string->constants()->path()
-               . '/admin/'
+               . " . '/admin/"
                . strtolower($component_string->package())
-               . '/'
+               . "/"
                . $this->getAdminClassName($component_string, $init)
-               . '.core.php';
+               . ".core.php'";
     }
 
     /**
