@@ -135,12 +135,8 @@ class ComponentType
         ) {
             return;
         }
-        WP_CLI::run_command(array(
-            $this->subCommandTrigger($component),
-            $addon_string->slug(),
-        ),
-            $associative_arguments
-        );
+
+        $component->{$this->subCommandCallback($component,true)}($addon_string->slug(), $associative_arguments);
     }
 
 
@@ -191,12 +187,11 @@ class ComponentType
      * Note: this method makes no assumption about whether the component even supports commands.  It's expected that
      * client code is checking that.
      *
-     * @param ComponentInterface $component
+     * @param ComponentInterface                    $component
      * @return string
      */
     public function subCommandTrigger(ComponentInterface $component)
     {
-        // something like ee module scaffold
         return 'ee ' . strtolower($this->type) . ' ' . strtolower($component->componentName());
     }
 
@@ -205,13 +200,14 @@ class ComponentType
      * Returns the subcommand callback for this component type.
      *
      * @param \Nerrad\WPCLI\EE\interfaces\ComponentInterface $component
-     * @return array
+     * @param bool                                           $as_string   To return as a string rather than array.
+     * @return array|string
      */
-    public function subCommandCallback(ComponentInterface $component)
+    public function subCommandCallback(ComponentInterface $component, $as_string = false)
     {
         //something like scaffoldCommand
         $method = strtolower($this->type) . 'Command';
-        return array($component, $method);
+        return $as_string ? $method : array($component, $method);
     }
 
 

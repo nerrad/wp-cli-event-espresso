@@ -290,7 +290,10 @@ class ComponentManager
                 return;
             }
             if ($component->registrationParts()) {
-                $this->registration_parts[] = $component->registrationParts();
+                $this->registration_parts= array_merge(
+                    $this->registration_parts,
+                    (array) $component->registrationParts()
+                );
             }
         });
 
@@ -336,11 +339,11 @@ class ComponentManager
             if (! $component instanceof ComponentHasScaffoldInterface) {
                 continue;
             }
-            $paths = (array)$component->autoloaderPaths();
-            array_push($autoloader_paths, $paths);
+            $paths = (array) $component->autoloaderPaths();
+            $autoloader_paths = array_merge($autoloader_paths, $paths);
         }
         if ($autoloader_paths) {
-            return "'autoloader_paths' => " . $this->formattedString($autoloader_paths);
+            return "'autoloader_paths' => " . $this->formattedString($autoloader_paths, 5);
         }
         return '';
     }
@@ -352,14 +355,15 @@ class ComponentManager
      * @param $parts
      * @return string
      */
-    private function formattedString($parts)
+    private function formattedString($parts, $indent_base = 4)
     {
         return 'array('
                . PHP_EOL
-               . Template::xIndents(4)
-               . implode(',' . PHP_EOL . Template::xIndents(4), $parts)
+               . Template::xIndents($indent_base)
+               . implode(',' . PHP_EOL . Template::xIndents($indent_base), $parts)
+               . ','
                . PHP_EOL
-               . Template::xIndents(3)
+               . Template::xIndents($indent_base - 1)
                . ')';
     }
 }

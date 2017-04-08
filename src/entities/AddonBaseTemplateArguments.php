@@ -186,7 +186,7 @@ class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
                 case $property === 'addon_package':
                     $this->{$property} = $this->addon_string->package();
                     break;
-                case $property === 'core_version_required':
+                case $property === 'addon_core_version_required':
                     $this->{$property} = cliUtils\get_flag_value($data, 'core_version_required',
                         EVENT_ESPRESSO_VERSION);
                     break;

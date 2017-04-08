@@ -58,6 +58,14 @@ class AddonScaffold extends CommandWithComponents
         $this->data                = $data;
         $this->addon_string        = $addon_string;
         $this->addon_scaffold_flag = new AddonScaffoldFlag($data);
+        //specialized components defined by flags need to be setup correctly first in the data.
+        if ($this->addon_scaffold_flag->isIncludeConfig()) {
+            $this->data['config'] = true;
+        }
+
+        if (! $this->addon_scaffold_flag->isSkipTests()) {
+            $this->data['tests'] = true;
+        }
         $this->component_manager->initialize($this->data, $this->addon_string, ComponentType::SCAFFOLD);
         $this->component_manager->removeComponentsNotRequested($this->addon_scaffold_flag);
     }
@@ -96,11 +104,11 @@ class AddonScaffold extends CommandWithComponents
 
         $file_generator->writeFiles();
 
-        $assoc_args['ignore_main_file_warning'] = true;
+        $this->data['ignore_main_file_warning'] = true;
 
         //let's run any subcommands for any included component arguments.
         $this->component_manager->runSubCommandsForArguments(
-            $assoc_args,
+            $this->data,
             ComponentType::SCAFFOLD,
             $this->addon_string
         );
@@ -285,35 +293,30 @@ class AddonScaffold extends CommandWithComponents
                 'name'        => 'core_version_required',
                 'description' => 'Use this to indicate the version of Event Espresso this addon requires.',
                 'optional'    => true,
-                'default'     => 'The currently installed version of Event Espresso',
             ),
             array(
                 'type'        => 'assoc',
                 'name'        => 'namespace',
                 'description' => 'Request the registration of a namespace. Will attach the namespace to the plugin directory.',
                 'optional'    => true,
-                'default'     => 'EventEspresso\\AddonSlug',
             ),
             array(
                 'type'        => 'flag',
                 'name'        => 'skip_tests',
                 'description' => 'Use this to indicate no generation of files for tests.',
                 'optional'    => true,
-                'default'     => false,
             ),
             array(
                 'type'        => 'flag',
                 'name'        => 'force',
                 'description' => 'Use this to indicate overwriting any files that already exist.',
                 'optional'    => true,
-                'default'     => false,
             ),
             array(
                 'type'        => 'flag',
                 'name'        => 'include_config',
                 'description' => 'Whether to generate a config file scaffold for the add-on.',
                 'optional'    => true,
-                'default'     => false,
             ),
         );
     }
