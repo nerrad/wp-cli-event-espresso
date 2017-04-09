@@ -1,0 +1,84 @@
+<?php
+defined('EVENT_ESPRESSO_VERSION') || exit('No direct access allowed.');
+
+/*
+ * EEW_{{widget_package}}
+ * A widget for {{addon_name}}.
+ *
+ * @package		EventEspresso\{{addon_package_camelized}}
+ * @subpackage 	widget
+ * @author		{{addon_author}}
+ * @since 	    1.0.0
+ *
+ * ------------------------------------------------------------------------
+ */
+class EEW_{{widget_package}} extends WP_Widget
+{
+
+    /**
+     * Register widget with WordPress.
+     */
+    public function __construct()
+    {
+        parent::__construct(
+            'eea-{{widget_slug}}-widget',
+            __('Event Espresso {{widget_name}} Widget', 'event_espresso'),
+            array(
+                'description' => __('Widget for {{addon_name}}', 'event_espresso')
+            ),
+            array(
+                'width' => 300,
+                'height' => 350,
+                'id_base' => 'eea-{{widget_slug}}-widget'
+            )
+        );
+    }
+
+
+
+    /**
+     * Back-end widget form.
+     *
+     * @see WP_Widget::form()
+     *
+     * @param array $instance Previously saved values from database.
+     * @return string
+     */
+    public function form($instance)
+    {
+
+        /** @todo This is where you add  your settings for the widget */
+    }
+
+
+
+    /**
+     * Sanitize widget form values as they are saved.
+     *
+     * @see WP_Widget::update()
+     *
+     * @param array $new_instance Values just sent to be saved.
+     * @param array $instance Previously saved values from database.
+     *
+     * @return array
+     */
+    public function update($new_instance, $instance)
+    {
+        /** @todo this is called when sanitizing values from the widget settings form when its being saved */
+    }
+
+
+
+    /**
+     * Front-end display of widget.
+     *
+     * @see WP_Widget::widget()
+     *
+     * @param array $args     Widget arguments.
+     * @param array $instance Saved values from database.
+     */
+    public function widget($args, $instance)
+    {
+        /** @todo add what is used to generate the content displayed in the widget wherever its displayed. */
+    }
+}
