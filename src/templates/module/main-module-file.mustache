@@ -13,13 +13,15 @@ defined('EVENT_ESPRESSO_VERSION') || exit('No direct access.');
  *
  * ------------------------------------------------------------------------
  */
-class EED_{{module_package}} extends EED_Module {
+class EED_{{module_package}} extends EED_Module
+{
 
 
     /**
      * @return EED_{{module_package}}
      */
-    public static function instance() {
+    public static function instance()
+    {
         return parent::get_instance(__CLASS__);
     }
 
@@ -28,14 +30,16 @@ class EED_{{module_package}} extends EED_Module {
     /**
      * 	set_hooks - for hooking into EE Core, other modules, etc
      */
-    public static function set_hooks() {
+    public static function set_hooks()
+    {
         EE_Config::register_route('{{module_underscore_slug}}', 'EED_{{module_package}}', 'run');
     }
 
     /**
      * 	set_hooks_admin - for hooking into EE Admin Core, other modules, etc
      */
-    public static function set_hooks_admin() {
+    public static function set_hooks_admin()
+    {
         // add any ajax hooks or hooks you want only set in the admin context here.
     }
 
@@ -45,7 +49,8 @@ class EED_{{module_package}} extends EED_Module {
      *
      * @param  WP $WP
      */
-    public function run($WP) {
+    public function run($WP)
+    {
         //put in any code you want run here on the modules route registered in `set_hooks`
     }
 
