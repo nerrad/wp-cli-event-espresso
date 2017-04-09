@@ -71,10 +71,10 @@ class Module implements
      * ## Options
      *
      * <addon_slug>
-     * : The slug of the addon the admin pages are being added to.
+     * : The slug of the addon the modules are being added to.
      *
      * [--module=<module_slugs>]
-     * : Comma-delimited list of slugs for each set of admin_page elements you want created.
+     * : Comma-delimited list of slugs for each set of module elements you want created.
      *
      * [--addon_author=<name>]
      * : Adds your name with the @author tag in any phpdocs
