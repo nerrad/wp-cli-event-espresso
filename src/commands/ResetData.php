@@ -39,7 +39,7 @@ class ResetData implements BaseCommandInterface
      *  - "reservations" means to reset all ticket reservations to 0
      *  - "caps" means to reset capabilities to default state.
      * ---
-     * default: partial
+     * default: reservations
      * options:
      *  - full
      *  - fresh
@@ -78,7 +78,7 @@ class ResetData implements BaseCommandInterface
      */
     private function setType($incoming_data)
     {
-        $this->type = WP_CLI\Utils\get_flag_value($incoming_data, 'type', 'partial');
+        $this->type = WP_CLI\Utils\get_flag_value($incoming_data, 'type', 'reservations');
     }
 
 
