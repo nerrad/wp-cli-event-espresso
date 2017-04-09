@@ -6,7 +6,7 @@ use Nerrad\WPCLI\EE\entities\AddonString;
 use Nerrad\WPCLI\EE\entities\template_arguments\AddonBaseTemplateArguments;
 use Nerrad\WPCLI\EE\interfaces\BaseFileGeneratorInterface;
 use Nerrad\WPCLI\EE\traits\ScaffoldFiles;
-use Nerrad\WPCLI\EE\abstracts\TemplateArgumentsAbstract;
+use Nerrad\WPCLI\EE\abstracts\BaseTemplateArgumentsAbstract;
 use WP_CLI\Utils as cliUtils;
 use WP_CLI;
 
@@ -44,13 +44,13 @@ class BaseFileGenerator implements BaseFileGeneratorInterface
     /**
      * BaseFileGenerator constructor.
      *
-     * @param AddonString               $addon_string
-     * @param TemplateArgumentsAbstract $template_arguments
-     * @param bool                      $verify                 Whether or not to verify the root addon directory exists.
+     * @param AddonString                   $addon_string
+     * @param BaseTemplateArgumentsAbstract $template_arguments
+     * @param bool                          $verify                 Whether or not to verify the root addon directory exists.
      */
     public function __construct(
         AddonString $addon_string,
-        TemplateArgumentsAbstract $template_arguments,
+        BaseTemplateArgumentsAbstract $template_arguments,
         $verify = false
     ) {
         $this->addon_string       = $addon_string;

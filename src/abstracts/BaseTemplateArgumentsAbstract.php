@@ -7,7 +7,7 @@ use Nerrad\WPCLI\EE\interfaces\TemplateArgumentsInterface;
 use WP_CLI\utils as cliUtils;
 
 /**
- * TemplateArgumentsAbstract
+ * BaseTemplateArgumentsAbstract
  * Implemented by classes that build template arguments for a scaffold command file generator.
  *
  * @package    Nerrad\WPCLI\EE
@@ -15,7 +15,7 @@ use WP_CLI\utils as cliUtils;
  * @author     Darren Ethier
  * @since      1.0.0
  */
-abstract class TemplateArgumentsAbstract implements TemplateArgumentsInterface
+abstract class BaseTemplateArgumentsAbstract implements TemplateArgumentsInterface
 {
     /**
      * @var AddonString
@@ -32,7 +32,7 @@ abstract class TemplateArgumentsAbstract implements TemplateArgumentsInterface
 
 
     /**
-     * TemplateArgumentsAbstract constructor.
+     * BaseTemplateArgumentsAbstract constructor.
      *
      * @param \Nerrad\WPCLI\EE\entities\AddonString $addon_string
      * @param array                                 $data  Incoming data from command invoked.

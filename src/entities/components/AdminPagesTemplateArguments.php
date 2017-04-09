@@ -2,13 +2,11 @@
 
 namespace Nerrad\WPCLI\EE\entities\components;
 
-use Nerrad\WPCLI\EE\abstracts\TemplateArgumentsAbstract;
-use Nerrad\WPCLI\EE\entities\AddonBaseTemplateArguments;
-use Nerrad\WPCLI\EE\entities\AddonString;
+use Nerrad\WPCLI\EE\abstracts\ComponentTemplateArgumentsAbstract;
 use Nerrad\WPCLI\EE\services\utils\Locations;
 use WP_CLI\utils as cliUtils;
 
-class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
+class AdminPagesTemplateArguments extends ComponentTemplateArgumentsAbstract
 {
 
     /**
@@ -55,40 +53,6 @@ class AdminPagesTemplateArguments extends TemplateArgumentsAbstract
      */
     private $addon_url_constant = 'ADDON_SLUG_URL';
 
-
-    /**
-     * @var ComponentString;
-     */
-    private $component_string;
-
-
-    /**
-     * @var AddonBaseTemplateArguments;
-     */
-    private $addon_base_template_arguments;
-
-
-    /**
-     * AdminPagesTemplateArguments constructor.
-     *
-     * @param \Nerrad\WPCLI\EE\entities\components\ComponentString $component_string
-     * @param \Nerrad\WPCLI\EE\entities\AddonBaseTemplateArguments $addon_base_template_arguments
-     * @param \Nerrad\WPCLI\EE\entities\AddonString                $addon_string
-     * @param                                                      $data
-     * @param bool                                                 $force
-     */
-    public function __construct(
-        ComponentString $component_string,
-        AddonBaseTemplateArguments $addon_base_template_arguments,
-        AddonString $addon_string,
-        $data,
-        $force = false
-    ) {
-        $this->addon_string = $addon_string;
-        $this->component_string = $component_string;
-        $this->addon_base_template_arguments = $addon_base_template_arguments;
-        parent::__construct($addon_string, $data, $force);
-    }
 
     /**
      * Converts all the properties to an array ready for the templates.

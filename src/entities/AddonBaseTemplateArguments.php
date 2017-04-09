@@ -2,7 +2,7 @@
 
 namespace Nerrad\WPCLI\EE\entities;
 
-use Nerrad\WPCLI\EE\abstracts\TemplateArgumentsAbstract;
+use Nerrad\WPCLI\EE\abstracts\BaseTemplateArgumentsAbstract;
 use WP_CLI\Utils as cliUtils;
 use Nerrad\WPCLI\EE\services\utils\Locations;
 
@@ -14,7 +14,7 @@ use Nerrad\WPCLI\EE\services\utils\Locations;
  * @author     Darren Ethier
  * @since      1.0.0
  */
-class AddonBaseTemplateArguments extends TemplateArgumentsAbstract
+class AddonBaseTemplateArguments extends BaseTemplateArgumentsAbstract
 {
     /**
      * This is what will be used for the title of the addon in the readme.txt and README.md files.
