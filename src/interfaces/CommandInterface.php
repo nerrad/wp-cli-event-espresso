@@ -19,7 +19,7 @@ interface CommandInterface
      *
      * @return array
      */
-    function commandDocumentArgument();
+    public function commandDocumentArgument();
 
 
     /**
@@ -27,7 +27,7 @@ interface CommandInterface
      *
      * @return string
      */
-    function commandShortDescription();
+    public function commandShortDescription();
 
 
     /**
@@ -39,5 +39,5 @@ interface CommandInterface
      *                           command might already have.
      * @return array
      */
-    function commandSynopsis($skip_global = true);
+    public function commandSynopsis($skip_global = true);
 }
