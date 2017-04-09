@@ -44,4 +44,23 @@ class Template
         } while($count > 0);
         return $content;
     }
+
+
+    /**
+     * Just returns a nice formatted string for the parts in the format `array( part1, part2, ...)`
+     *
+     * @param $parts
+     * @return string
+     */
+    public static function formattedArrayString($parts, $indent_base = 4)
+    {
+        return 'array('
+               . PHP_EOL
+               . Template::xIndents($indent_base)
+               . implode(',' . PHP_EOL . Template::xIndents($indent_base), $parts)
+               . ','
+               . PHP_EOL
+               . Template::xIndents($indent_base - 1)
+               . ')';
+    }
 }

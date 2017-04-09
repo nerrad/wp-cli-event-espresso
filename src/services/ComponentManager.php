@@ -298,7 +298,7 @@ class ComponentManager
         });
 
         //k let's return the parts as the string for the template.
-        return $this->formattedString($this->registration_parts);
+        return Template::formattedArrayString($this->registration_parts);
     }
 
 
@@ -343,27 +343,8 @@ class ComponentManager
             $autoloader_paths = array_merge($autoloader_paths, $paths);
         }
         if ($autoloader_paths) {
-            return "'autoloader_paths' => " . $this->formattedString($autoloader_paths, 5);
+            return "'autoloader_paths' => " . Template::formattedArrayString($autoloader_paths, 5);
         }
         return '';
-    }
-
-
-    /**
-     * Just returns a nice formatted string for the parts in the format `array( part1, part2, ...)`
-     *
-     * @param $parts
-     * @return string
-     */
-    private function formattedString($parts, $indent_base = 4)
-    {
-        return 'array('
-               . PHP_EOL
-               . Template::xIndents($indent_base)
-               . implode(',' . PHP_EOL . Template::xIndents($indent_base), $parts)
-               . ','
-               . PHP_EOL
-               . Template::xIndents($indent_base - 1)
-               . ')';
     }
 }

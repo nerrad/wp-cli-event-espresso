@@ -1,0 +1,52 @@
+<?php
+defined('EVENT_ESPRESSO_VERSION') || exit('No direct access.');
+/**
+ * EED_{{module_package}}
+ *
+ * This is where miscellaneous action and filters callbacks should be setup to
+ * do your addon's business logic (that doesn't fit neatly anywhere else)
+ *
+ * @package			EventEspresso\{{addon_package_camelized}}
+ * @subpackage		module
+ * @author 			{{addon_author}}
+ * @since           1.0.0
+ *
+ * ------------------------------------------------------------------------
+ */
+class EED_{{module_package}} extends EED_Module {
+
+
+    /**
+     * @return EED_{{module_package}}
+     */
+    public static function instance() {
+        return parent::get_instance(__CLASS__);
+    }
+
+
+
+    /**
+     * 	set_hooks - for hooking into EE Core, other modules, etc
+     */
+    public static function set_hooks() {
+        EE_Config::register_route('{{module_underscore_slug}}', 'EED_{{module_package}}', 'run');
+    }
+
+    /**
+     * 	set_hooks_admin - for hooking into EE Admin Core, other modules, etc
+     */
+    public static function set_hooks_admin() {
+        // add any ajax hooks or hooks you want only set in the admin context here.
+    }
+
+
+    /**
+     * Usually used for initial module setup and will execute when the module's registered route is in the request.
+     *
+     * @param  WP $WP
+     */
+    public function run($WP) {
+        //put in any code you want run here on the modules route registered in `set_hooks`
+    }
+
+}
