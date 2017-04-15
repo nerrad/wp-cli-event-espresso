@@ -1,0 +1,82 @@
+<?php
+defined('EVENT_ESPRESSO_VERSION') || exit('No direct access allowed.');
+
+/*
+ * EES_{{shortcode_package}}
+ *
+ * Note the shortcode registered is a derivative of the class name.  So the shortcode that is registered will be
+ * [{{shortcode_package_capitalized}}]
+ *
+ * @package			EventEspresso\{{addon_package_camelized}}
+ * @subpackage		shortcodes
+ * @author 		    {{addon_author}}
+ * @ version		1.0.0
+ *
+ * ------------------------------------------------------------------------
+ */
+
+class EES_{{shortcode_package}} extends EES_Shortcode
+{
+
+
+    /**
+     * For hooking into EE Core, modules, etc
+     *
+     * @access    public
+     */
+    public static function set_hooks()
+    {
+    }
+
+
+    /**
+     * For hooking into EE Admin Core, modules, etc
+     *
+     * @access    public
+     */
+    public static function set_hooks_admin()
+    {
+    }
+
+
+    /**
+     * A place to define any constants etc.
+     *
+     * @access    public
+     */
+    public static function set_definitions()
+    {
+    }
+
+
+    /**
+     * Initial shortcode module setup called during "wp_loaded" hook
+     * this method is primarily used for loading resources that will be required by the shortcode when it is
+     * actually processed.
+     *
+     * @access    public
+     * @param     WP $WP
+     */
+    public function run(WP $WP)
+    {
+    }
+
+
+    /**
+     * This is the method that gets called when the shortcode is parsed and processed.
+     *
+     * @access   public
+     * @param    array $attributes
+     * @return ''
+     */
+    public function process_shortcode($attributes = array())
+    {
+        // make sure $attributes is an array
+        $attributes = array_merge(
+        // defaults
+            array(),
+            (array)$attributes
+        );
+        //here you'd add any logic that replaces the shortcode in the content.
+    }
+}
