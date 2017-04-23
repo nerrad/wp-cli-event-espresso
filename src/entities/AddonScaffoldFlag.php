@@ -47,7 +47,7 @@ class AddonScaffoldFlag
     public function __construct($data)
     {
         $this->include_config = cliUtils\get_flag_value($data, 'include_config', false);
-        $this->skip_tests     = cliUtils\get_flag_value($data, 'skip_tests', true);
+        $this->skip_tests     = cliUtils\get_flag_value($data, 'skip_tests', false);
         $this->force          = cliUtils\get_flag_value($data, 'force', false);
     }
 
