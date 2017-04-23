@@ -1,0 +1,23 @@
+<?php
+/**
+ * Bootstrap for {{addon_name}} Unit Tests
+ */
+use EETests\bootstrap\AddonLoader;
+
+$core_tests_dir = dirname(dirname(dirname(__FILE__))) . '/event-espresso-core/tests/';
+//if still don't have $core_tests_dir, then let's check tmp folder.
+if (! is_dir($core_tests_dir)) {
+    $core_tests_dir = '/tmp/event-espresso-core/tests/';
+}
+require $core_tests_dir . 'includes/CoreLoader.php';
+require $core_tests_dir . 'includes/AddonLoader.php';
+
+define('{{addon_package_capitalized}}_PLUGIN_DIR', dirname(dirname(__FILE__)) . '/');
+define('{{addon_package_capitalized}}_TESTS_DIR', {{addon_package_capitalized}}_PLUGIN_DIR . 'tests/');
+
+$addon_loader = new AddonLoader(
+    {{addon_package_capitalized}}_TESTS_DIR,
+    {{addon_package_capitalized}}_PLUGIN_DIR,
+    '{{addon_slug}}.php'
+);
+$addon_loader->init();

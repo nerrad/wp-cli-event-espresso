@@ -243,7 +243,6 @@ class AddonBaseTemplateArguments extends BaseTemplateArgumentsAbstract
     {
         $template_path = Locations::templatesPath() . 'base/';
         return array(
-            $addon_directory . 'circle.yml' => $template_path . 'circle.yml.mustache',
             $addon_directory . '.gitignore' => $template_path . 'gitignore.mustache',
             $addon_directory . 'info.json'  => $template_path . 'info.json.mustache',
             $addon_directory . 'LICENSE'    => $template_path . 'LICENSE.mustache',

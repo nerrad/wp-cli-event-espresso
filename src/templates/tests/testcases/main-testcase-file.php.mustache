@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Test class for main file
+ *
+ * @since         1.0.0
+ * @package       EventEspresso/{{addon_package_camelized}}
+ * @subpackage    tests
+ * @author        {{addon_author}}
+ */
+class {{addon_package_camelized}}MainFileTests extends EE_UnitTestCase
+{
+
+    /**
+     * Tests the loading of the main file
+     */
+    public function testLoadingAddon()
+    {
+        $this->assertEquals(10, has_action('AHEE__EE_System__load_espresso_addons', 'load_{{addon_underscore_slug}}'));
+        $this->assertTrue(class_exists('EE_{{addon_package}}'));
+    }
+}
